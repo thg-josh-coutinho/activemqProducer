@@ -10,7 +10,7 @@ import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import java.util.List;
-
+import java.util.LinkedList;
 import com.josh.utils.Tuple;
  
 public final class App {
@@ -42,7 +42,44 @@ public final class App {
   }
 
     private static List<Tuple<String, String>> initEdges() {
-	return null;
+	List<Tuple<String, String>> result = new LinkedList<Tuple<String, String>>();
+
+	result.add(new Tuple<String, String>("eq", "21"));
+	result.add(new Tuple<String, String>("21", "1"));
+
+	result.add(new Tuple<String, String>("1", "2"));
+ 
+	result.add(new Tuple<String, String>("2", "3"));
+ 
+	result.add(new Tuple<String, String>("3", "3"));
+ 
+	result.add(new Tuple<String, String>("3", "14"));
+
+	result.add(new Tuple<String, String>("14", "4"));
+
+	result.add(new Tuple<String, String>("4", "22"));
+
+	result.add(new Tuple<String, String>("22", "5"));
+
+	result.add(new Tuple<String, String>("5", "6"));
+ 
+	result.add(new Tuple<String, String>("6", "7"));
+ 
+	result.add(new Tuple<String, String>("6", "8"));
+ 
+	result.add(new Tuple<String, String>("2", "10"));
+
+	result.add(new Tuple<String, String>("10", "11"));
+	result.add(new Tuple<String, String>("11", "12"));
+	result.add(new Tuple<String, String>("11", "13"));
+	result.add(new Tuple<String, String>("2", "9"));
+ 
+	result.add(new Tuple<String, String>("1", "9"));
+ 
+	result.add(new Tuple<String, String>("4", "9"));
+ 
+	return result;
+
     }
 
     private static String genRandomMessage(List<Tuple<String, String>> edges)
