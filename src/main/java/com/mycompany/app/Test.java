@@ -9,26 +9,54 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 public class Test {
 
     public static void main(String []args){
+	unmarshallValue();
+    }
 
-    String resultString = "<ord:newOrderRequest eventId=\"10\" eventTime=\"008-09-\"9T0\":49:45\" startTime=\"014-09-19T00:18:33\" finishTime=\"006-08-19T18:\"7:14+01:00\" failTime=\"009-05-16T13:4\":\"8\" eventType=\"RESERVATION_RESPONSE\" xmlns:ord=\"http://xml.thehutgroup.com/orderEvents\">\n  <!--Optional:-->\n  <ord:link rel=\"http://www.test.com/foedere/ferant\" href=\"http://www.corp.org/et/turbine\" mediaType=\"string\"/>\n  <ord:orderNumber>string</ord:orderNumber>\n  <ord:orderLink rel=\"http://www.any.org/speluncis/profundum\" href=\"http://www.my.com/flammas/ac\" mediaType=\"string\"/>\n</ord:newOrderRequest>";
+
+    public static void marshallValue(){
+	try {
+
+    
+	    JAXBContext jaxbContext = JAXBContext.newInstance(NewOrderRequest.class);
+	    Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+	    // output pretty printed
+	    jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+	    ObjectFactory obj = new ObjectFactory();
+	    JAXBElement<NewOrderRequest> req = obj.createNewOrderRequest(obj.createNewOrderRequest());
+	    jaxbMarshaller.marshal(req, System.out);
+
+	} catch (JAXBException e) {
+	    e.printStackTrace();
+	}
+
+    }
+
+
+    public static void unmarshallValue(){
+
+    String resultString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<newOrderRequest xmlns=\"http://xml.thehutgroup.com/orderEvents\" eventId=\"0\"/>";
 
     try{
 
 	   String packageNames = "com.example.myschema";
 	   JAXBContext jaxbContext = JAXBContext.newInstance(packageNames);  
    
-	   Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();  
+	   Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller(); 
 	   Object o = jaxbUnmarshaller.unmarshal(new StringReader(resultString));
-          
-	   if(o instanceof NewOrderRequest)
-	       {
-		   NewOrderRequest no = (NewOrderRequest)o;
-		   System.out.println(no.getLink().getHref());
-	       }
+	   Object x = ((JAXBElement)o).getValue();;
+
+
+	   /*if(o instanceof NewOrderRequest)
+	     {
+	   NewOrderRequest no = (NewOrderRequest)o;
+	   System.out.println(no.getLink().getHref());
+		       }
 	   else {
 	       System.out.printf("Could not understand message: %s\n", o);
-	   }
-    }catch(Exception e) { System.out.println("Could not print results"); }
+	       }*/
+    }catch(Exception e) { e.printStackTrace(); }
 	
     }
 
