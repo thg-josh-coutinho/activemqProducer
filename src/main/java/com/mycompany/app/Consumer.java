@@ -16,7 +16,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 public class Consumer {
 
     public static void main(String []args){
-	exhaustQueue("SampleQueue");
+	consumeXMLQueue("SampleQueue");
     }
 
     public static void exhaustQueue(String queueName)
@@ -54,6 +54,7 @@ public class Consumer {
 
     public static void consumeXMLQueue(String queueName){
 	String resultString = null;
+	System.out.println("About to dequeue");
 	try {
 	    Connection conn = new ActiveMQConnectionFactory().createConnection();
 	    conn.start();
@@ -63,18 +64,22 @@ public class Consumer {
 	    resultString = getStringMessage(s.createConsumer(s.createQueue(queueName)));
 	} catch (Exception e) {System.out.println(e); System.exit(1);}
 
+	System.out.printf("Got message: %s\n", resultString);
 	try {
 	   String packageNames = "com.example.myschema";
-	   JAXBContext jaxbContext = JAXBContext.newInstance(packageNames, Class.forName("Consumer").getClassLoader());  
+	   JAXBContext jaxbContext = JAXBContext.newInstance(packageNames);  
    
 	   Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();  
-	   Object o = jaxbUnmarshaller.unmarshal(new File(""));  
+	   Object o = jaxbUnmarshaller.unmarshal(new StringReader(resultString));
           
 	   if(o instanceof NewOrderRequest)
 	       {
 		   NewOrderRequest no = (NewOrderRequest)o;
 		   System.out.println(no.getLink().getHref());
 	       }
+	   else {
+	       System.out.printf("Could not understand message: %s\n", o);
+	   }
    
 	} catch (Exception e) {
 	    e.printStackTrace();  
