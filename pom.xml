@@ -45,7 +45,7 @@
 	  </execution>
 	</executions>
 	<configuration>
-	  <mainClass>com.mycompany.app.Consumer</mainClass>
+	  <mainClass>com.mycompany.app.Test</mainClass>
 	</configuration>
       </plugin>
       <plugin>
