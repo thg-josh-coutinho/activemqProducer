@@ -17,6 +17,7 @@ public class Consumer {
 
     public static void main(String []args){
 	consumeXMLQueue("SampleQueue");
+	//exhaustQueue("SampleQueue");
     }
 
     public static void exhaustQueue(String queueName)
@@ -70,12 +71,12 @@ public class Consumer {
 	   JAXBContext jaxbContext = JAXBContext.newInstance(packageNames);  
    
 	   Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();  
-	   Object o = jaxbUnmarshaller.unmarshal(new StringReader(resultString));
+	   Object o = ((JAXBElement)jaxbUnmarshaller.unmarshal(new StringReader(resultString))).getValue();
           
 	   if(o instanceof NewOrderRequest)
 	       {
 		   NewOrderRequest no = (NewOrderRequest)o;
-		   System.out.println(no.getLink().getHref());
+		   System.out.println(no);
 	       }
 	   else {
 	       System.out.printf("Could not understand message: %s\n", o);

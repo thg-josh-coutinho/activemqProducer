@@ -45,7 +45,7 @@
 	  </execution>
 	</executions>
 	<configuration>
-	  <mainClass>com.mycompany.app.Test</mainClass>
+	  <mainClass>com.mycompany.app.Producer</mainClass>
 	</configuration>
       </plugin>
       <plugin>
@@ -83,6 +83,16 @@
           </execution>
         </executions>
       </plugin>      
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<version>3.3</version>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<configuration>
+	  <source>1.8</source>
+	  <target>1.8</target>
+	  <enableAssertions>true</enableAssertions>
+	</configuration>
+      </plugin>
     </plugins>
   </build>
     
