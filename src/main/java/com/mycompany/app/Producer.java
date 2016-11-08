@@ -33,25 +33,30 @@ public final class Producer {
     public static void main(String []args)
     {
 	init();
-	sendStringStream(fileStream("orderevents/events", 739, 747));
+	for(int i = 0; i < 10; i++){
+	    sendStringStream(fileStream("/events", 739, 747));
+	}
     }
 
     public static Stream<String> fileStream(String prefix, int start, int end)
     {
 	return Stream
 	    .iterate(start, n -> n + 1)
-	    .limit(start - end + 1)
+	    .limit(end - start + 1)
 	    .map(x -> {
 		    try { 
-			Scanner sc = new Scanner(new File(prefix + x));
+			Scanner sc = new Scanner(
+						 new File(
+							  Producer.class
+							  .getResource(prefix + x)
+							  .toURI()));
 			StringBuffer result = new StringBuffer();
 			while(sc.hasNext()){
 			    result.append(sc.nextLine());
-			    sc.nextLine();
 			    result.append("\n");
 			}
 			return result.toString();
-		    } catch(Exception e) { System.err.printf("Could not find file %s$d\n", prefix, x); }
+		    } catch(Exception e) { e.printStackTrace(); }
 		    return "";
 		});
     }
